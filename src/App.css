@@ -1,0 +1,128 @@
+#root {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 0.8fr 0.8fr 1.2fr;
+  grid-template-rows: 1.5fr 0.2fr;
+  grid-auto-columns: 1fr;
+  gap: 1em 1em;
+  grid-auto-flow: row;
+  grid-template-areas:
+    'image title-description attributes'
+    'bottom bottom bottom';
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: 'previous buttons next';
+  grid-area: bottom;
+}
+
+.previous {
+  grid-area: previous;
+}
+
+.buttons {
+  grid-area: buttons;
+}
+
+.next {
+  grid-area: next;
+}
+
+.image {
+  grid-area: image;
+}
+
+.attributes {
+  grid-area: attributes;
+}
+
+.title-description {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.4fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    'title'
+    'description'
+    'description';
+  grid-area: title-description;
+}
+
+.title {
+  grid-area: title;
+}
+
+.description {
+  grid-area: description;
+  max-height: 400px;
+  overflow-y: auto;
+
+  p {
+    text-align: justify;
+  }
+}
+
+.attribute-list-container {
+  span {
+    text-align: left;
+  }
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  grid-auto-columns: 1fr;
+  gap: 1em 1em;
+  grid-auto-flow: row;
+  grid-template-areas: '. . . .';
+}
