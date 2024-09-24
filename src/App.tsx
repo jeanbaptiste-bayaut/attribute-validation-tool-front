@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -10,8 +11,6 @@ function App() {
       product_name: '',
       product_description: '',
       image_url: '',
-      attribute_name: '',
-      value_name: '',
     },
   ]);
   const [attributeList, setAttributeList] = useState([
@@ -27,11 +26,10 @@ function App() {
     setProducts(result.data);
   };
 
-  const getAttributesList = async () => {
+  const getAttributesList = async (index: number) => {
     setAttributeList([]);
-    console.log(products[currentIndex].product_id);
 
-    const productId = products[currentIndex].product_id;
+    const productId = products[index].product_id;
 
     const result = await axios.get(
       `http://localhost:8080/api/attributes/${productId}`
@@ -42,8 +40,6 @@ function App() {
         '<br>'
       );
     });
-    console.log(result.data);
-
     setAttributeList(result.data);
   };
 
@@ -51,11 +47,16 @@ function App() {
     getImagesUrl();
   }, []);
 
+  useEffect(() => {
+    if (products.length > 0) {
+      getAttributesList(currentIndex);
+    }
+  }, [products, currentIndex]);
+
   // Fonction pour afficher le produit suivant
   const nextProduct = () => {
     if (currentIndex < products.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      getAttributesList();
     }
   };
 
@@ -66,13 +67,25 @@ function App() {
     }
   };
 
-  // Si les produits ne sont pas encore chargés
-  if (products.length === 0) {
-    return <div>Chargement des produits...</div>;
-  }
+  const handleValidateButton = async () => {
+    const productId = products[currentIndex].product_id;
+    const result = await axios.patch(
+      `http://localhost:8080/api/products/${productId}`
+    );
+
+    if (!result) {
+      console.log("le produit n'a pas été validé");
+    }
+    alert(result.data.message);
+    getImagesUrl();
+    nextProduct();
+  };
 
   return (
     <>
+      <div>
+        <p>{products.length} product(s) to validate</p>
+      </div>
       <div className="grid-container">
         <div className="bottom">
           <div className="previous">
@@ -81,7 +94,7 @@ function App() {
             </button>
           </div>
           <div className="buttons">
-            <button>Validate</button>
+            <button onClick={handleValidateButton}>Validate</button>
             <button>Fail</button>
           </div>
           <div className="next">
@@ -105,8 +118,7 @@ function App() {
               <li key={index} className="attribute-list-container">
                 <span>{attribute.attribute_name}</span>
                 <span>{attribute.value_name}</span>
-                <button>Update</button>
-                <button>Validate</button>
+                <button>edit</button>
               </li>
             ))}
           </ul>
