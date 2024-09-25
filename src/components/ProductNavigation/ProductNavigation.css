@@ -1,0 +1,8 @@
+.bottom {
+  display: flex;
+  justify-content: center;
+
+  div {
+    margin-inline: 1em;
+  }
+}
