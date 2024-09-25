@@ -1,6 +1,6 @@
 .bottom {
   display: flex;
-  justify-content: center;
+  justify-content: start;
 
   div {
     margin-inline: 1em;

@@ -98,11 +98,11 @@ function App() {
           );
         }
         getImagesUrl();
-        setCurrentIndex(currentIndex + 1);
       } catch (error) {
         throw new Error(String(error));
       }
     });
+    setCurrentIndex(currentIndex + 1);
     alert(
       `le produit ${products[currentIndex].product_style} - ${products[currentIndex].product_name} est envoyé pour correction`
     );

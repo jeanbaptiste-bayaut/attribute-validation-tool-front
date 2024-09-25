@@ -22,11 +22,42 @@
 
 .description {
   grid-area: description;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 0 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .text {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 2em;
+    padding: 0 1em;
+  }
 
   p {
     text-align: justify;
+  }
+
+  button {
+    align-self: center;
+    width: 150px;
+  }
+}
+
+.form-description {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .textarea {
+    margin-top: 2em;
+    height: 200px;
+    vertical-align: top;
+    padding: 8px;
+    line-height: 1.5;
+  }
+
+  button {
+    width: 150px;
+    align-self: center;
   }
 }
