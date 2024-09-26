@@ -1,27 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import ProductNavigation from './components/ProductNavigation/ProductNavigation';
+import ProductDetails from './components/ProductDetails/ProductDetails';
+import AttributeList from './components/AttributeList/AttributeList';
+import ActionButtons from './components/ActionButtons/ActionButtons';
 
 function App() {
-  const [products, setProducts] = useState([
-    {
-      product_id: 0,
-      product_style: '',
-      product_name: '',
-      product_description: '',
-      image_url: '',
-    },
-  ]);
-  const [attributeList, setAttributeList] = useState([
-    {
-      attribute_name: '',
-      value_name: '',
-    },
-  ]);
-  const [attributeListToEdit, setattributeListToEdit] = useState<
-    { attribute_name: string; value_name: string }[]
-  >([]);
+  interface Product {
+    product_id: string;
+    product_name: string;
+    product_style: string;
+    product_description: string;
+    image_url: string;
+  }
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [attributeList, setAttributeList] = useState([]);
+  const [checkedState, setCheckedState] = useState<boolean[]>([]);
+  const [attributeListToEdit, setattributeListToEdit] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const getImagesUrl = async () => {
@@ -30,67 +27,27 @@ function App() {
   };
 
   const getAttributesList = async (index: number) => {
-    setAttributeList([]);
-
     const productId = products[index].product_id;
-
     const result = await axios.get(
       `http://localhost:8080/api/attributes/${productId}`
     );
-    result.data.map((description: { product_description: string }) => {
-      description.product_description = description.product_description.replace(
-        /: /g,
-        '<br>'
-      );
-    });
     setCheckedState(new Array(result.data.length).fill(true));
     setAttributeList(result.data);
   };
-
-  const [checkedState, setCheckedState] = useState<boolean[]>([]);
 
   const handleOnChange = (position: number) => {
     const updatedCheckedState = checkedState.map((item, index) =>
       index === position ? !item : item
     );
-
     setCheckedState(updatedCheckedState);
-
-    const inputFalse = updatedCheckedState.reduce<
-      { attribute_name: string; value_name: string }[]
-    >((list, currentState, index) => {
-      if (currentState === false) {
-        return [...list, attributeList[index]];
-      }
-      console.log(list);
-
-      return list;
-    }, []);
+    const inputFalse = updatedCheckedState.reduce(
+      (list, currentState, index) => {
+        if (!currentState) list.push(attributeList[index]);
+        return list;
+      },
+      []
+    );
     setattributeListToEdit(inputFalse);
-  };
-
-  useEffect(() => {
-    getImagesUrl();
-  }, []);
-
-  useEffect(() => {
-    if (products.length > 0) {
-      getAttributesList(currentIndex);
-    }
-  }, [products, currentIndex]);
-
-  // Fonction pour afficher le produit suivant
-  const nextProduct = () => {
-    if (currentIndex < products.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
-
-  // Fonction pour afficher le produit précédent
-  const prevProduct = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
   };
 
   const handleValidateButton = async () => {
@@ -98,13 +55,9 @@ function App() {
     const result = await axios.patch(
       `http://localhost:8080/api/products/${productId}`
     );
-
-    if (!result) {
-      console.log("le produit n'a pas été validé");
-    }
     alert(result.data.message);
     getImagesUrl();
-    nextProduct();
+    setCurrentIndex(currentIndex + 1);
   };
 
   const handleFailButton = async () => {
@@ -125,9 +78,9 @@ function App() {
           );
         }
 
-        const requestValueid = await axios.get(
-          `http://localhost:8080/api/values/name/${attribute_id}/${value_name}`
-        );
+        const requestValueid = await axios.get(`
+          http://localhost:8080/api/values/name/${attribute_id}/${value_name}
+          `);
 
         const value_id = requestValueid.data.id;
 
@@ -145,85 +98,46 @@ function App() {
           );
         }
         getImagesUrl();
-        nextProduct();
       } catch (error) {
         throw new Error(String(error));
       }
     });
+    setCurrentIndex(currentIndex + 1);
     alert(
       `le produit ${products[currentIndex].product_style} - ${products[currentIndex].product_name} est envoyé pour correction`
     );
   };
 
+  useEffect(() => {
+    getImagesUrl();
+  }, []);
+
+  useEffect(() => {
+    if (products.length > 0) getAttributesList(currentIndex);
+  }, [products, currentIndex]);
+
   return (
     <>
-      <div>
-        <p>{products.length} product(s) to validate</p>
-      </div>
+      <p>{products.length} product(s) to validate</p>
       <div className="grid-container">
-        <div className="bottom">
-          <div className="previous">
-            <button onClick={prevProduct} disabled={currentIndex === 0}>
-              Précédent
-            </button>
-          </div>
-          <div className="buttons">
-            <button onClick={handleValidateButton}>Validate</button>
-            <button onClick={handleFailButton}>Fail</button>
-          </div>
-          <div className="next">
-            <button
-              onClick={nextProduct}
-              disabled={currentIndex === products.length - 1}
-            >
-              Suivant
-            </button>
-          </div>
-        </div>
-        <div className="image">
-          <img
-            src={products[currentIndex].image_url}
-            alt={products[currentIndex].product_style}
-          />
-        </div>
-        <div className="attributes">
-          <ul>
-            {attributeList.map((attribute, index) => (
-              <li key={index} className="attribute-list-container">
-                <span>{attribute.attribute_name}</span>
-                <span>{attribute.value_name}</span>
-                <label className="switch">
-                  <input
-                    type="checkbox"
-                    id={`switch-${index}`}
-                    name={`${attribute.attribute_name}:${attribute.value_name}`}
-                    value={`${attribute.attribute_name}:${attribute.value_name}`}
-                    checked={checkedState[index]}
-                    onChange={() => handleOnChange(index)}
-                  />
-                  <span className="slider"></span>
-                </label>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="title-description">
-          <div className="title">
-            <h2>{products[currentIndex].product_name}</h2>
-            <h3>{products[currentIndex].product_style}</h3>
-          </div>
-          <div className="description">
-            {products[currentIndex].product_description
-              .replace(/([A-Z][a-zA-Z ]+):/g, ';$1:')
-              .split(';')
-              .map((line, index) => {
-                if (line === '') {
-                  return null;
-                }
-                return <p key={index}>{line}</p>;
-              })}
-          </div>
-        </div>
+        <ProductDetails product={products[currentIndex]} />
+        <AttributeList
+          attributes={attributeList}
+          checkedState={checkedState}
+          handleOnChange={handleOnChange}
+        />
+        <ProductNavigation
+          prevProduct={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+          nextProduct={() =>
+            setCurrentIndex((prev) => Math.min(products.length - 1, prev + 1))
+          }
+          currentIndex={currentIndex}
+          totalProducts={products.length}
+        />
+        <ActionButtons
+          onValidate={handleValidateButton}
+          onFail={handleFailButton}
+        />
       </div>
     </>
   );
