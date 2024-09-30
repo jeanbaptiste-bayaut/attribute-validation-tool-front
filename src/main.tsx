@@ -20,20 +20,28 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const PrivateRoute = () => {
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const userLog = Cookies.get('username');
 
   if (!userLog) {
     return <Navigate to="/" />;
   }
-  return <ControlPage />;
+
+  return children;
 };
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
       <Route index element={<App />} />
-      <Route path="/control" element={<PrivateRoute />} />
+      <Route
+        path="/control"
+        element={
+          <PrivateRoute>
+            <ControlPage />
+          </PrivateRoute>
+        }
+      />
     </Route>
   )
 );
