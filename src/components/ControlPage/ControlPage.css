@@ -1,0 +1,29 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 0.7fr 1.2fr;
+  grid-template-rows: 1.8fr 0.2fr;
+  grid-auto-columns: 1fr;
+  gap: 1em 1em;
+  grid-auto-flow: row;
+}
+
+.attributes {
+  grid-area: 1 / 3 / 2 / 4;
+  width: 100%;
+}
+
+.bottom {
+  grid-area: 2 / 1 / 3 / 4;
+}
+
+.previous {
+  grid-area: 2 / 1 / 3 / 2;
+}
+
+.next {
+  grid-area: 2 / 2 / 3 / 3;
+}
+
+.buttons {
+  grid-area: 2 / 3 / 3 / 4;
+}
