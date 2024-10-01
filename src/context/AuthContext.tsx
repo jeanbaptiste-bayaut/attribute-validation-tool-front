@@ -59,6 +59,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
 };
 
 // Créer un hook pour accéder au contexte de l'authentification
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
   // Récupérer le contexte de l'authentification
   const context = useContext(AuthContext);

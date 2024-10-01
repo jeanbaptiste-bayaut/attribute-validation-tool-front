@@ -1,3 +1,9 @@
+.attributes {
+  ul {
+    width: 100%;
+  }
+}
+
 .attribute-list-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

@@ -27,7 +27,7 @@ function Leftnav() {
         </li>
         <li>
           <a href="/upload" onClick={hideNav}>
-            Upload Coupons
+            Upload data
           </a>
         </li>
       </ul>

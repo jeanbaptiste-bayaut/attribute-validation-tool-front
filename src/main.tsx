@@ -15,11 +15,13 @@ import Root from './pages/Root';
 import App from './App';
 import ControlPage from './components/ControlPage/ControlPage';
 import Loader from './components/Loader/Loader';
+import Upload from './components/Upload/Upload';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
+// eslint-disable-next-line react-refresh/only-export-components
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const userLog = Cookies.get('username');
 
@@ -39,6 +41,14 @@ const router = createBrowserRouter(
         element={
           <PrivateRoute>
             <ControlPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/upload"
+        element={
+          <PrivateRoute>
+            <Upload />
           </PrivateRoute>
         }
       />

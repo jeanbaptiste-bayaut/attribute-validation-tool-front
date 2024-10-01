@@ -1,8 +1,5 @@
 .menu-burger {
   display: block;
-  position: fixed;
-  top: 1em;
-  left: 1em;
   padding-top: 1em;
   padding-left: 1em;
   transition: ease-in-out 1s;

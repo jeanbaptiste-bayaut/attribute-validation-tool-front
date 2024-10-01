@@ -62,6 +62,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
       if (result.status === 200) {
         alert('Comment sent');
+        setFormData('');
         closeModal();
       }
     } catch (error) {
