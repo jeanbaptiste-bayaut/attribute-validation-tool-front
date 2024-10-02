@@ -70,21 +70,28 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     }
   }
 
+  const description = product.product_description
+    .replace(/([A-Z][a-zA-Z ]+):/g, ';$1:')
+    .split(';')
+    .filter((line) => line);
+
   return (
     <div className="image-description">
       <div className="image">
         <img src={product.image_url} alt={product.product_style} />
       </div>
       <div className="title">
-        <h2>{product.product_name}</h2>
-        <h3>{product.product_style}</h3>
+        <h3>
+          {product.product_name} - {product.product_style}
+        </h3>
       </div>
       <div className="description">
         <div className="text">
-          {product.product_description
-            .replace(/([A-Z][a-zA-Z ]+):/g, ';$1:')
-            .split(';')
-            .map((line, index) => line && <p key={index}>{line}</p>)}
+          {description[0] !== '0' ? (
+            description.map((line, index) => <p key={index}>{line}</p>)
+          ) : (
+            <p>No description for this product</p>
+          )}
         </div>
         <button onClick={openModal}>Add comment</button>
         <Modal

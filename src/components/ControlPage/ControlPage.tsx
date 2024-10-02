@@ -118,11 +118,6 @@ function ControlPage() {
 
   return (
     <>
-      <div className="menu-nurger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
       <p>{products.length} product(s) to validate</p>
       <div className="grid-container">
         <ProductDetails product={products[currentIndex]} />

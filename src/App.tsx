@@ -40,7 +40,7 @@ function App() {
       {isAuthenticated && (
         <div className="redirection-section">
           <a href="/control">Control Values</a>
-          <a href="/edit">Edit Values</a>
+          <a href="/export">Export</a>
           <a href="/upload">Upload data</a>
         </div>
       )}
