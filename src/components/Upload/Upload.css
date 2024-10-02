@@ -1,10 +1,11 @@
 .upload-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto auto auto auto;
   gap: 1em 1em;
   grid-auto-flow: row;
   grid-template-areas:
+    'products descriptions attributes values products-attributes'
     'products descriptions attributes values products-attributes'
     'products descriptions attributes values products-attributes'
     'products descriptions attributes values products-attributes';
@@ -13,6 +14,12 @@
     border: 1px solid #ccc;
     padding: 1em;
     border-radius: 8px;
+
+    a {
+      width: 100%;
+      text-align: center;
+      font-size: 0.8rem;
+    }
 
     label {
       font-weight: 700;
@@ -34,7 +41,8 @@
   grid-template-areas:
     'label-products label-products label-products'
     'file-products file-products file-products'
-    'button-products button-products button-products';
+    'button-products button-products button-products'
+    'download download download';
   grid-area: products;
 }
 
@@ -59,7 +67,8 @@
   grid-template-areas:
     'label-descriptions label-descriptions label-descriptions'
     'file-descriptions file-descriptions file-descriptions'
-    'button-descriptions button-descriptions button-descriptions';
+    'button-descriptions button-descriptions button-descriptions'
+    'download download download';
   grid-area: descriptions;
 }
 
@@ -84,7 +93,8 @@
   grid-template-areas:
     'label-attributes label-attributes label-attributes'
     'file-attributes file-attributes file-attributes'
-    'button-attributes button-attributes button-attributes';
+    'button-attributes button-attributes button-attributes'
+    'download download download';
   grid-area: attributes;
 }
 
@@ -109,7 +119,8 @@
   grid-template-areas:
     'label-values label-values label-values'
     'file-values file-values file-values'
-    'button-values button-values button-values';
+    'button-values button-values button-values'
+    'download download download';
   grid-area: values;
 }
 
@@ -134,7 +145,8 @@
   grid-template-areas:
     'label-products-attributes label-products-attributes label-products-attributes'
     'file-products-attributes file-products-attributes file-products-attributes'
-    'button-products-attributes button-products-attributes button-products-attributes';
+    'button-products-attributes button-products-attributes button-products-attributes'
+    'download download download';
   grid-area: products-attributes;
 }
 
@@ -148,4 +160,35 @@
 
 .button-products-attributes {
   grid-area: button-products-attributes;
+}
+
+.download {
+  grid-area: download;
+}
+
+@media screen and (max-width: 1440px) {
+  .upload-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1em 1em;
+    grid-auto-flow: row;
+    grid-template-areas:
+      'products descriptions attributes'
+      'values products-attributes .';
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .upload-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1em 1em;
+    grid-auto-flow: row;
+    grid-template-areas:
+      'products descriptions'
+      'attributes values'
+      'products-attributes .';
+  }
 }

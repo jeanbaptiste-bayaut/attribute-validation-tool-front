@@ -12,8 +12,13 @@ nav {
 
   .close {
     position: absolute;
-    margin: 0.5em;
     cursor: pointer;
+    width: 100%;
+    text-align: end;
+
+    span {
+      padding: 0.5em;
+    }
   }
 
   h1 {

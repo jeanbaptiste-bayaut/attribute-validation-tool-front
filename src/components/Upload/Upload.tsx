@@ -1,6 +1,7 @@
 import './Upload.css';
 import axios from 'axios';
 import { useState } from 'react';
+import { CSVLink } from 'react-csv';
 
 function Upload() {
   const [file, setFile] = useState<File | null>(null);
@@ -68,6 +69,21 @@ function Upload() {
           encType="multipart/form-data"
           onSubmit={(e) => handleUpload(e, 'products', file)}
         >
+          <CSVLink
+            data={[
+              ['style', 'name', 'image_url', 'description'],
+              [
+                'ELBSF00180',
+                'SBXE PREVENT PO Y',
+                'https://s3.amazonaws.com/images.boardriders.com/bi/element/large/elbsf00180_ghe0.png',
+                'description',
+              ],
+            ]}
+            filename={`import-products-template.csv`}
+            className="download"
+          >
+            Downlaod Products template
+          </CSVLink>
           <label htmlFor="products" className="label-products">
             Upload products
           </label>
@@ -100,12 +116,34 @@ function Upload() {
             onChange={handleFileChange}
           />
           <button className="button-descriptions">Upload</button>
+          <CSVLink
+            data={[
+              ['style', 'name', 'image_url', 'description'],
+              [
+                'ELBSF00180',
+                'SBXE PREVENT PO Y',
+                'https://s3.amazonaws.com/images.boardriders.com/bi/element/large/elbsf00180_ghe0.png',
+                'description',
+              ],
+            ]}
+            filename={`import-descriptions-template.csv`}
+            className="download"
+          >
+            Downlaod Descriptions template
+          </CSVLink>
         </form>
         <form
           id="attributes"
           className="attributes"
           onSubmit={(e) => handleUpload(e, 'attributes', file)}
         >
+          <CSVLink
+            data={[['name'], ['parent_type'], ['category'], ['fit']]}
+            filename={`import-attributes-template.csv`}
+            className="download"
+          >
+            Downlaod Attributes template
+          </CSVLink>
           <label htmlFor="attributes" className="label-attributes">
             Upload attributes
           </label>
@@ -125,6 +163,17 @@ function Upload() {
           className="values"
           onSubmit={(e) => handleUpload(e, 'attributes/values', file)}
         >
+          <CSVLink
+            data={[
+              ['attribute', 'value1', 'value2', 'value3', 'value4'],
+              ['category', 'accessories', 'clothing', 'snow'],
+              ['parent_type', 'bag', 'backpack', 'beanie', 'belt'],
+            ]}
+            filename={`import-values-template.csv`}
+            className="download"
+          >
+            Downlaod Values template
+          </CSVLink>
           <label htmlFor="values" className="label-values">
             Upload values
           </label>
@@ -144,6 +193,43 @@ function Upload() {
           className="products-attributes"
           onSubmit={(e) => handleUpload(e, 'products/attributes/values', file)}
         >
+          <CSVLink
+            data={[
+              [
+                'style',
+                'division_1',
+                'category_1',
+                'gender_1',
+                'parent_type_1',
+                'subtype_1',
+                'subtype_2',
+                'fit_1',
+              ],
+              [
+                'ELBSF00180',
+                'element',
+                'clothing',
+                'men',
+                't-shirt',
+                'short_sleeve',
+                'long_sleeve',
+              ],
+              [
+                'ELBSF00181',
+                'element',
+                'clothing',
+                'men',
+                'short',
+                'hybrid',
+                'side_pocket',
+                'regular',
+              ],
+            ]}
+            filename={`import-assignment-template.csv`}
+            className="download"
+          >
+            Assign attributes template
+          </CSVLink>
           <label
             htmlFor="products-attributes"
             className="label-products-attributes"

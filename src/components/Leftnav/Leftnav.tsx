@@ -8,7 +8,7 @@ function Leftnav() {
   return (
     <nav>
       <div className="close" onClick={hideNav}>
-        x
+        <span>x</span>
       </div>
       <a href="/">
         <h1>ATTRIBUTE CONTROL TOOL</h1>
