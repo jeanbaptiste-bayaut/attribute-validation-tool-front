@@ -1,4 +1,4 @@
-import './AttributeList.css';
+import './AttributeList.scss';
 
 interface AttributeList {
   attribute_name: string;

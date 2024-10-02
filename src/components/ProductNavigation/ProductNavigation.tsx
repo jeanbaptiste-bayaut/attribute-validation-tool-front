@@ -1,4 +1,4 @@
-import './ProductNavigation.css';
+import './ProductNavigation.scss';
 
 interface ProductNavigationProps {
   prevProduct: () => void;

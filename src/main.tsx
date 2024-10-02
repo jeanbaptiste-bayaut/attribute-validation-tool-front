@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import './index.css';
+import './index.scss';
 import { AuthProvider } from './context/AuthContext';
 import { Navigate } from 'react-router-dom';
 import Cookies from 'js-cookie';

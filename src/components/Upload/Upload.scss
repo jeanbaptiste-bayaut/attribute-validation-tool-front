@@ -81,19 +81,20 @@
 .button-descriptions {
   grid-area: button-descriptions;
 }
-
-.attributes {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  gap: 1em 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    'label-attributes label-attributes label-attributes'
-    'file-attributes file-attributes file-attributes'
-    '. button-attributes .'
-    'download download download';
-  grid-area: attributes;
+.upload-container {
+  .attributes {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 1em 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      'label-attributes label-attributes label-attributes'
+      'file-attributes file-attributes file-attributes'
+      '. button-attributes .'
+      'download download download';
+    grid-area: attributes;
+  }
 }
 
 .label-attributes {

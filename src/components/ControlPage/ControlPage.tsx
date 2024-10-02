@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import './ControlPage.css';
+import './ControlPage.scss';
 import ProductNavigation from '../../components/ProductNavigation/ProductNavigation';
 import ProductDetails from '../../components/ProductDetails/ProductDetails';
 import AttributeList from '../../components/AttributeList/AttributeList';
@@ -114,6 +114,7 @@ function ControlPage() {
 
   useEffect(() => {
     if (products.length > 0) getAttributesList(currentIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, currentIndex]);
 
   return (

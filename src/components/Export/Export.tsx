@@ -1,4 +1,4 @@
-import './Export.css';
+import './Export.scss';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CSVLink } from 'react-csv';
@@ -46,6 +46,7 @@ function Export() {
           <CSVLink
             data={stylesWithAttributesToEdit}
             filename={`at-attributes-export${currentDate}.csv`}
+            separator={';'}
           >
             Download me
           </CSVLink>
@@ -55,6 +56,7 @@ function Export() {
           <CSVLink
             data={stylesWithDescriptionsComment}
             filename={`at-descriptions-export${currentDate}.csv`}
+            separator={';'}
           >
             Download me
           </CSVLink>

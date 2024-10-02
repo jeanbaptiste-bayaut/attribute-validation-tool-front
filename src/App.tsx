@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useAuth } from './context/AuthContext';

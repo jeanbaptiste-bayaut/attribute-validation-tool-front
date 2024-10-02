@@ -1,4 +1,4 @@
-import './Upload.css';
+import './Upload.scss';
 import axios from 'axios';
 import { useState } from 'react';
 import { CSVLink } from 'react-csv';
@@ -81,6 +81,7 @@ function Upload() {
             ]}
             filename={`import-products-template.csv`}
             className="download"
+            separator={';'}
           >
             Downlaod Products template
           </CSVLink>
@@ -128,6 +129,7 @@ function Upload() {
             ]}
             filename={`import-descriptions-template.csv`}
             className="download"
+            separator={';'}
           >
             Downlaod Descriptions template
           </CSVLink>
@@ -141,6 +143,7 @@ function Upload() {
             data={[['name'], ['parent_type'], ['category'], ['fit']]}
             filename={`import-attributes-template.csv`}
             className="download"
+            separator={';'}
           >
             Downlaod Attributes template
           </CSVLink>
@@ -171,6 +174,7 @@ function Upload() {
             ]}
             filename={`import-values-template.csv`}
             className="download"
+            separator={';'}
           >
             Downlaod Values template
           </CSVLink>
@@ -227,6 +231,7 @@ function Upload() {
             ]}
             filename={`import-assignment-template.csv`}
             className="download"
+            separator={';'}
           >
             Assign attributes template
           </CSVLink>

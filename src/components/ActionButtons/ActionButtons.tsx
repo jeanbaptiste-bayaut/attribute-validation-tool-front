@@ -1,4 +1,4 @@
-import './ActionButtons.css';
+import './ActionButtons.scss';
 
 interface ActionButtonsProps {
   onValidate: () => void;

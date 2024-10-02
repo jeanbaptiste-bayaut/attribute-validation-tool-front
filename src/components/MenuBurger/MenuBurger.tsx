@@ -1,4 +1,4 @@
-import './MenuBurger.css';
+import './MenuBurger.scss';
 
 function MenuBurger() {
   const handleMenu = () => {

@@ -1,4 +1,4 @@
-import './ProductDetails.css';
+import './ProductDetails.scss';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
