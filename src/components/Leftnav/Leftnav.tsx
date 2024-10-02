@@ -21,8 +21,8 @@ function Leftnav() {
           </a>
         </li>
         <li>
-          <a href="/edit" onClick={hideNav}>
-            Edit values
+          <a href="/export" onClick={hideNav}>
+            Export
           </a>
         </li>
         <li>

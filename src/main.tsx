@@ -16,6 +16,7 @@ import App from './App';
 import ControlPage from './components/ControlPage/ControlPage';
 import Loader from './components/Loader/Loader';
 import Upload from './components/Upload/Upload';
+import Export from './components/Export/Export';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
+      <Route path="/export" element={<Export />} />
     </Route>
   )
 );
