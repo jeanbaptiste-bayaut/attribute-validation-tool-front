@@ -3,6 +3,15 @@ import axios from 'axios';
 import { useState } from 'react';
 import { CSVLink } from 'react-csv';
 
+interface AxiosError {
+  response?: {
+    data?: {
+      message?: string;
+    };
+  };
+  message: string;
+}
+
 function Upload() {
   const [file, setFile] = useState<File | null>(null);
 
@@ -10,7 +19,6 @@ function Upload() {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile); // Met à jour l'état du fichier
-      console.log('Selected file:', selectedFile);
     }
   };
 
@@ -26,36 +34,25 @@ function Upload() {
       return;
     }
 
-    console.log('file', file);
-
     const formData = new FormData();
     formData.append('csvFile', file);
 
     try {
-      const response = await axios.post(
-        `http://localhost:8080/upload/${endpoint}`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
+      await axios.post(`http://localhost:8080/upload/${endpoint}`, formData, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
-      alert('File uploading ...');
-
-      if (response) {
-        alert(`${endpoint} file uploaded successfully`);
-      }
+      alert(`${endpoint} file uploaded successfully`);
     } catch (error) {
-      console.log('Error uploading the file:', error);
-      alert(`Error uploading the ${endpoint} file`);
-      if (error instanceof Error) {
-        throw new Error(
-          `Error uploading the ${endpoint} file: ${error.message}`
-        );
-      }
+      const axiosError = error as AxiosError;
+      console.log(axiosError.response?.data?.message);
+      const errorMessage =
+        axiosError.response?.data?.message || axiosError.message;
+      alert(`Error uploading the ${endpoint} file: \n ${errorMessage}`);
+      throw new Error(`Error uploading the ${endpoint} file: ${errorMessage}`);
     }
   };
 

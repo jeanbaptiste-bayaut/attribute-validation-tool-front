@@ -20,10 +20,41 @@ function ControlPage() {
   const [checkedState, setCheckedState] = useState<boolean[]>([]);
   const [attributeListToEdit, setattributeListToEdit] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [brands, setBrands] = useState([{ brand_name: '' }]);
+  const [seasons, setSeasons] = useState([{ season_name: '' }]);
+  const [selectedBrand, setSelectedBrand] = useState('');
+  const [selectedSeason, setSelectedSeason] = useState('');
 
-  const getImagesUrl = async () => {
-    const result = await axios.get('http://localhost:8080/api/products');
+  const getImagesUrl = async (brand: string, season: string) => {
+    const result = await axios.get(
+      `http://localhost:8080/api/products/${brand}/${season}`
+    );
     setProducts(result.data);
+  };
+
+  const getBrands = async () => {
+    const result = await axios.get('http://localhost:8080/api/brands');
+    setBrands(result.data);
+  };
+
+  const getSeasons = async () => {
+    const result = await axios.get('http://localhost:8080/api/seasons');
+    setSeasons(result.data);
+  };
+
+  const handleFilterSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    getImagesUrl(selectedBrand, selectedSeason);
+  };
+
+  const handleChangeSelectBrand = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedBrand(e.target.value);
+  };
+
+  const handleChangeSelectSeason = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setSelectedSeason(e.target.value);
   };
 
   const getAttributesList = async (index: number) => {
@@ -56,7 +87,7 @@ function ControlPage() {
       `http://localhost:8080/api/products/${productId}`
     );
     alert(result.data.message);
-    getImagesUrl();
+    getImagesUrl(selectedBrand, selectedSeason);
     setCurrentIndex(currentIndex + 1);
   };
 
@@ -97,7 +128,7 @@ function ControlPage() {
             `le produit ${productId} n'a pas été mis à jour pour les valeurs ${attribute_name} ${value_name}`
           );
         }
-        getImagesUrl();
+        getImagesUrl(selectedBrand, selectedSeason);
       } catch (error) {
         throw new Error(String(error));
       }
@@ -109,7 +140,8 @@ function ControlPage() {
   };
 
   useEffect(() => {
-    getImagesUrl();
+    getBrands();
+    getSeasons();
   }, []);
 
   useEffect(() => {
@@ -119,7 +151,31 @@ function ControlPage() {
 
   return (
     <>
-      <p>{products.length} product(s) to validate</p>
+      <header>
+        <div>
+          <form onSubmit={handleFilterSubmit}>
+            <select name="brand" onChange={handleChangeSelectBrand}>
+              <option defaultValue="">Select a brand</option>
+              {brands.map((brand) => (
+                <option key={brand.brand_name} value={brand.brand_name}>
+                  {brand.brand_name}
+                </option>
+              ))}
+            </select>
+            <select name="season" onChange={handleChangeSelectSeason}>
+              <option defaultValue="">Select a season</option>
+              {seasons.map((season) => (
+                <option key={season.season_name} value={season.season_name}>
+                  {season.season_name}
+                </option>
+              ))}
+            </select>
+            <button type="submit">Filter</button>
+          </form>
+        </div>
+        <p>{products.length} product(s) to validate</p>
+      </header>
+
       <div className="grid-container">
         <ProductDetails product={products[currentIndex]} />
         <AttributeList
