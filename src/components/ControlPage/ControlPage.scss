@@ -25,3 +25,33 @@
     margin-top: 1em;
   }
 }
+
+.content {
+  .filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1em;
+    justify-content: center;
+    margin-bottom: 1em;
+    margin-top: 1em;
+
+    .filter {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      label {
+        font-weight: bold;
+      }
+
+      select {
+        padding: 0.5em 1em;
+      }
+    }
+
+    button {
+      background-color: white;
+      color: black;
+    }
+  }
+}

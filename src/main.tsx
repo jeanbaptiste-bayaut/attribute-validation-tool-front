@@ -17,6 +17,7 @@ import ControlPage from './components/ControlPage/ControlPage';
 import Loader from './components/Loader/Loader';
 import Upload from './components/Upload/Upload';
 import Export from './components/Export/Export';
+import PageNotfound from './pages/404/404';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -53,7 +54,15 @@ const router = createBrowserRouter(
           </PrivateRoute>
         }
       />
-      <Route path="/export" element={<Export />} />
+      <Route
+        path="/export"
+        element={
+          <PrivateRoute>
+            <Export />
+          </PrivateRoute>
+        }
+      />
+      <Route path="*" element={<PageNotfound />} />
     </Route>
   )
 );

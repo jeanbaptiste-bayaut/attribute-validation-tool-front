@@ -153,7 +153,7 @@ function ControlPage() {
     <>
       <header>
         <div>
-          <form onSubmit={handleFilterSubmit}>
+          <form onSubmit={handleFilterSubmit} className="filter-form">
             <select name="brand" onChange={handleChangeSelectBrand}>
               <option defaultValue="">Select a brand</option>
               {brands.map((brand) => (
