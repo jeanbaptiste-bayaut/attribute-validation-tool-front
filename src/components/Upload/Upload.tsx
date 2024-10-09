@@ -35,15 +35,19 @@ function Upload() {
     }
 
     const formData = new FormData();
-    formData.append('csvFile', file);
+    formData.append(`${endpoint.replace('/', '_')}`, file);
 
     try {
-      await axios.post(`http://localhost:8080/upload/${endpoint}`, formData, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/upload/${endpoint}`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
       alert(`${endpoint} file uploaded successfully`);
     } catch (error) {

@@ -19,13 +19,13 @@ function Export() {
     useState([]);
   const getStylesWithAttributesToEdit = async () => {
     const result = await axios.get(
-      'http://localhost:8080/api/export/attributes'
+      `${import.meta.env.VITE_API_URL}/api/export/attributes`
     );
     setStylesWithAttributesToEdit(result.data);
   };
   const getStylesWithDescriptionsComment = async () => {
     const result = await axios.get(
-      'http://localhost:8080/api/export/descriptions'
+      `${import.meta.env.VITE_API_URL}/api/export/descriptions`
     );
     setStylesWithDescriptionsComment(result.data);
   };

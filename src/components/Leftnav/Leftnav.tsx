@@ -30,6 +30,15 @@ function Leftnav() {
             Upload data
           </a>
         </li>
+        <li>
+          <a
+            href={import.meta.env.VITE_API_URL + '/api/tmp/upload'}
+            onClick={hideNav}
+            target="_blank"
+          >
+            TMP
+          </a>
+        </li>
       </ul>
     </nav>
   );

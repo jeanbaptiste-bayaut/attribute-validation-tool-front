@@ -27,18 +27,22 @@ function ControlPage() {
 
   const getImagesUrl = async (brand: string, season: string) => {
     const result = await axios.get(
-      `http://localhost:8080/api/products/${brand}/${season}`
+      `${import.meta.env.VITE_API_URL}/api/products/${brand}/${season}`
     );
     setProducts(result.data);
   };
 
   const getBrands = async () => {
-    const result = await axios.get('http://localhost:8080/api/brands');
+    const result = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/brands`
+    );
     setBrands(result.data);
   };
 
   const getSeasons = async () => {
-    const result = await axios.get('http://localhost:8080/api/seasons');
+    const result = await axios.get(
+      `${import.meta.env.VITE_API_URL}/api/seasons`
+    );
     setSeasons(result.data);
   };
 
@@ -60,7 +64,7 @@ function ControlPage() {
   const getAttributesList = async (index: number) => {
     const productId = products[index].product_id;
     const result = await axios.get(
-      `http://localhost:8080/api/attributes/${productId}`
+      `${import.meta.env.VITE_API_URL}/api/attributes/${productId}`
     );
     setCheckedState(new Array(result.data.length).fill(true));
     setAttributeList(result.data);
@@ -84,7 +88,7 @@ function ControlPage() {
   const handleValidateButton = async () => {
     const productId = products[currentIndex].product_id;
     const result = await axios.patch(
-      `http://localhost:8080/api/products/${productId}`
+      `${import.meta.env.VITE_API_URL}/api/products/${productId}`
     );
     alert(result.data.message);
     getImagesUrl(selectedBrand, selectedSeason);
@@ -98,7 +102,9 @@ function ControlPage() {
 
       try {
         const requestAttributeId = await axios.get(
-          `http://localhost:8080/api/attributes/name/${attribute_name}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/attributes/name/${attribute_name}`
         );
 
         const attribute_id = requestAttributeId.data.id;
@@ -110,7 +116,9 @@ function ControlPage() {
         }
 
         const requestValueid = await axios.get(`
-          http://localhost:8080/api/values/name/${attribute_id}/${value_name}
+          ${
+            import.meta.env.VITE_API_URL
+          }/api/values/name/${attribute_id}/${value_name}
           `);
 
         const value_id = requestValueid.data.id;
@@ -120,7 +128,9 @@ function ControlPage() {
         }
 
         const result = await axios.patch(
-          `http://localhost:8080/api/attributes/status/${productId}/${attribute_id}/${value_id}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/attributes/status/${productId}/${attribute_id}/${value_id}`
         );
 
         if (!result) {
