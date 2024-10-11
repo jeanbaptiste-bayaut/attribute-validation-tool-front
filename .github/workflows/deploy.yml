@@ -32,6 +32,19 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "dist/*"
           target: "/var/www/html/attribute-validation-tool-front/"
+          port: 22
+          timeout: 30s
+          command_timeout: 10m
+          use_insecure_cipher: false
+          rm: false
+          debug: false
+          strip_components: 0
+          overwrite: true  # Forcer l'écrasement des fichiers existants
+          tar_dereference: false
+          tar_exec: tar
+          proxy_port: 22
+          proxy_timeout: 30s
+          proxy_use_insecure_cipher: false
 
       - name: Restart Nginx
         uses: appleboy/ssh-action@v0.1.8
