@@ -36,7 +36,7 @@ jobs:
           timeout: 30s
           command_timeout: 10m
           use_insecure_cipher: false
-          rm: false
+          rm: true  # Supprimer les fichiers existants avant de copier les nouveaux
           debug: false
           strip_components: 0
           overwrite: true  # Forcer l'écrasement des fichiers existants
