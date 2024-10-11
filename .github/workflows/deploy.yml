@@ -3,22 +3,36 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main
+      - main  # ou la branche que tu utilises pour le déploiement
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v0.1.3
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # ou la version de Node.js que tu utilises
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
+
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd /var/www/html/ton-repo
-            git pull origin main
-            sudo systemctl restart nginx
+          source: "dist/*"
+          target: "/var/www/html/attribute-validation-tool-front/"
+
+      - name: Restart Nginx
+        run: |
+          ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_HOST }} "sudo systemctl restart nginx"
