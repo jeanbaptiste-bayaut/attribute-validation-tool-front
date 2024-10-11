@@ -11,12 +11,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Utiliser la dernière version
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3  # Utiliser la dernière version
         with:
-          node-version: '16'  # ou la version de Node.js que tu utilises
+          node-version: '22'  # ou la version de Node.js que tu utilises
 
       - name: Install dependencies
         run: npm install
@@ -27,7 +27,7 @@ jobs:
       - name: Copy files to EC2
         uses: appleboy/scp-action@v0.1.4
         with:
-          host: "${{ secrets.EC2_HOST }}"
+          host: ${{ secrets.EC2_HOST }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "dist/*"
