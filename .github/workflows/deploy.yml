@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3  # Utiliser la dernière version
         with:
-          node-version: '22'  # ou la version de Node.js que tu utilises
+          node-version: '16'  # ou la version de Node.js que tu utilises
 
       - name: Install dependencies
         run: npm install
@@ -34,5 +34,9 @@ jobs:
           target: "/var/www/html/attribute-validation-tool-front/"
 
       - name: Restart Nginx
-        run: |
-          ssh -i ${{ secrets.EC2_SSH_KEY }} ec2-user@${{ secrets.EC2_HOST }} "sudo systemctl restart nginx"
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: sudo systemctl restart nginx
