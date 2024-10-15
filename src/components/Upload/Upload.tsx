@@ -72,13 +72,13 @@ function Upload() {
         >
           <CSVLink
             data={[
-              ['style', 'name', 'image_url', 'description'],
+              ['style', 'name', 'image_url', 'description', 'season'],
               [
                 'ELBSF00180',
                 'SBXE PREVENT PO Y',
                 'https://s3.amazonaws.com/images.boardriders.com/bi/element/large/elbsf00180_ghe0.png',
                 'description',
-                'season',
+                '251',
               ],
             ]}
             filename={`import-products-template.csv`}
