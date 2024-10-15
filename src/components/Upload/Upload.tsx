@@ -38,7 +38,7 @@ function Upload() {
     formData.append(`${endpoint.replace('/', '-')}`, file);
 
     try {
-      await axios.post(
+      const upload = await axios.post(
         `${import.meta.env.VITE_API_URL}/upload/${endpoint}`,
         formData,
         {
@@ -48,6 +48,18 @@ function Upload() {
           },
         }
       );
+
+      if (upload.data.existingValues) {
+        alert(
+          `${endpoint} file uploaded successfully with existing values: \n
+          ${upload.data.existingValues
+            .map(
+              (value: { attribute: string; value: string }) =>
+                `${value.attribute}: ${value.value}`
+            )
+            .join('\n')}`
+        );
+      }
 
       alert(`${endpoint} file uploaded successfully`);
       setFile(null);
