@@ -35,7 +35,7 @@ function Upload() {
     }
 
     const formData = new FormData();
-    formData.append(`${endpoint.replace('/', '_')}`, file);
+    formData.append(`${endpoint.replace('/', '-')}`, file);
 
     try {
       await axios.post(
@@ -50,9 +50,15 @@ function Upload() {
       );
 
       alert(`${endpoint} file uploaded successfully`);
+      setFile(null);
+
+      (
+        document.getElementById(
+          `${endpoint.replace('/', '-')}`
+        ) as HTMLFormElement
+      )?.reset();
     } catch (error) {
       const axiosError = error as AxiosError;
-      console.log(axiosError.response?.data?.message);
       const errorMessage =
         axiosError.response?.data?.message || axiosError.message;
       alert(`Error uploading the ${endpoint} file: \n ${errorMessage}`);
@@ -164,7 +170,7 @@ function Upload() {
           <button className="button-attributes">Upload</button>
         </form>
         <form
-          id="values"
+          id="attributes-values"
           className="values"
           onSubmit={(e) => handleUpload(e, 'attributes/values', file)}
         >
@@ -195,7 +201,7 @@ function Upload() {
           <button className="button-values">Upload</button>
         </form>
         <form
-          id="products-attributes"
+          id="products-attributes-values"
           className="products-attributes"
           onSubmit={(e) => handleUpload(e, 'products/attributes/values', file)}
         >
