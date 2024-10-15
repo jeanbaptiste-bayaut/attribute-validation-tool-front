@@ -78,6 +78,7 @@ function Upload() {
                 'SBXE PREVENT PO Y',
                 'https://s3.amazonaws.com/images.boardriders.com/bi/element/large/elbsf00180_ghe0.png',
                 'description',
+                'season',
               ],
             ]}
             filename={`import-products-template.csv`}
