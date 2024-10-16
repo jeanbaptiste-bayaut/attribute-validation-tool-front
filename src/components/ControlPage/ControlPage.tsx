@@ -34,14 +34,26 @@ function ControlPage() {
 
   const getBrands = async () => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/brands`
+      `${import.meta.env.VITE_API_URL}/api/brands`,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
     );
     setBrands(result.data);
   };
 
   const getSeasons = async () => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/seasons`
+      `${import.meta.env.VITE_API_URL}/api/seasons`,
+      {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }
     );
     setSeasons(result.data);
   };
