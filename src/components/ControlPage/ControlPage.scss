@@ -24,6 +24,7 @@
     grid-area: buttons;
     margin-top: 1em;
   }
+
 }
 
 .content {
@@ -34,6 +35,12 @@
     justify-content: center;
     margin-bottom: 1em;
     margin-top: 1em;
+
+    select {
+      background-color: #3B3B3B;
+      color: white;
+      border-radius: 8px;
+    }
 
     .filter {
       display: flex;
