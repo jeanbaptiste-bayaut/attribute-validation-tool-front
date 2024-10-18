@@ -104,7 +104,7 @@ function Export() {
   }, []);
 
   return (
-    <div className="container">
+    <div className="parent-container">
       <h1>Export</h1>
       <form onSubmit={handleFilterSubmit} className="filter-form-export">
         <select name="brand" onChange={handleChangeSelectBrand}>
