@@ -56,7 +56,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
     try {
       const result = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/descriptions/comment`,
+        `${
+          process.env.NODE_ENV === 'production'
+            ? import.meta.env.VITE_API_URL
+            : import.meta.env.VITE_API_URL_DEV
+        }/api/descriptions/comment`,
         formJson
       );
 
