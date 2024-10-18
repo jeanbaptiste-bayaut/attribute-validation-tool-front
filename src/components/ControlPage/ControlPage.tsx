@@ -27,14 +27,22 @@ function ControlPage() {
 
   const getImagesUrl = async (brand: string, season: string) => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/products/${brand}/${season}`
+      `${
+        process.env.NODE_ENV === 'production'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV
+      }/api/products/${brand}/${season}`
     );
     setProducts(result.data);
   };
 
   const getBrands = async () => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/brands`,
+      `${
+        process.env.NODE_ENV === 'production'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV
+      }/api/brands`,
       {
         withCredentials: true,
         headers: {
@@ -47,7 +55,11 @@ function ControlPage() {
 
   const getSeasons = async () => {
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/seasons`,
+      `${
+        process.env.NODE_ENV === 'production'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV
+      }/api/seasons`,
       {
         withCredentials: true,
         headers: {
@@ -76,7 +88,11 @@ function ControlPage() {
   const getAttributesList = async (index: number) => {
     const productId = products[index].product_id;
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/attributes/${productId}`
+      `${
+        process.env.NODE_ENV === 'production'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV
+      }/api/attributes/${productId}`
     );
     setCheckedState(new Array(result.data.length).fill(true));
     setAttributeList(result.data);
@@ -100,7 +116,11 @@ function ControlPage() {
   const handleValidateButton = async () => {
     const productId = products[currentIndex].product_id;
     const result = await axios.patch(
-      `${import.meta.env.VITE_API_URL}/api/products/${productId}`
+      `${
+        process.env.NODE_ENV === 'production'
+          ? import.meta.env.VITE_API_URL
+          : import.meta.env.VITE_API_URL_DEV
+      }/api/products/${productId}`
     );
     alert(result.data.message);
     getImagesUrl(selectedBrand, selectedSeason);
@@ -109,56 +129,75 @@ function ControlPage() {
 
   const handleFailButton = async () => {
     const productId = products[currentIndex].product_id;
-    attributeListToEdit.forEach(async (attribute) => {
-      const { attribute_name, value_name } = attribute;
 
-      try {
-        const requestAttributeId = await axios.get(
-          `${
-            import.meta.env.VITE_API_URL
-          }/api/attributes/name/${attribute_name}`
-        );
+    if (attributeListToEdit.length > 0) {
+      attributeListToEdit.forEach(async (attribute) => {
+        const { attribute_name, value_name } = attribute;
 
-        const attribute_id = requestAttributeId.data.id;
-
-        if (!attribute_id) {
-          throw new Error(
-            `l'attribut n'a pas été trouvé pour ${attribute_name}`
+        try {
+          const requestAttributeId = await axios.get(
+            `${
+              process.env.NODE_ENV === 'production'
+                ? import.meta.env.VITE_API_URL
+                : import.meta.env.VITE_API_URL_DEV
+            }/api/attributes/name/${attribute_name}`
           );
-        }
 
-        const requestValueid = await axios.get(`
+          const attribute_id = requestAttributeId.data.id;
+
+          if (!attribute_id) {
+            throw new Error(
+              `l'attribut n'a pas été trouvé pour ${attribute_name}`
+            );
+          }
+
+          const requestValueid = await axios.get(`
           ${
-            import.meta.env.VITE_API_URL
+            process.env.NODE_ENV === 'production'
+              ? import.meta.env.VITE_API_URL
+              : import.meta.env.VITE_API_URL_DEV
           }/api/values/name/${attribute_id}/${value_name}
           `);
 
-        const value_id = requestValueid.data.id;
+          const value_id = requestValueid.data.id;
 
-        if (!value_id) {
-          throw new Error(`la valeur n'a pas été trouvé pour ${value_name}`);
-        }
+          if (!value_id) {
+            throw new Error(`la valeur n'a pas été trouvé pour ${value_name}`);
+          }
 
-        const result = await axios.patch(
-          `${
-            import.meta.env.VITE_API_URL
-          }/api/attributes/status/${productId}/${attribute_id}/${value_id}`
-        );
+          console.log(productId, attribute_id, value_id);
 
-        if (!result) {
-          throw new Error(
-            `le produit ${productId} n'a pas été mis à jour pour les valeurs ${attribute_name} ${value_name}`
+          const result = await axios.patch(
+            `${
+              process.env.NODE_ENV === 'production'
+                ? import.meta.env.VITE_API_URL
+                : import.meta.env.VITE_API_URL_DEV
+            }/api/attributes/status/${productId}/${attribute_id}/${value_id}`
           );
+
+          if (!result.data) {
+            throw new Error(
+              `le produit ${productId} n'a pas été mis à jour pour les valeurs ${attribute_name} ${value_name}`
+            );
+          }
+          getImagesUrl(selectedBrand, selectedSeason);
+          setCurrentIndex(currentIndex + 1);
+          alert(
+            `le produit ${products[currentIndex].product_style} - ${products[currentIndex].product_name} est envoyé pour correction`
+          );
+        } catch (error) {
+          alert(
+            `Erreur lors de la mise à jour du produit ${products[currentIndex].product_name}`
+          );
+          throw new Error(String(error));
         }
-        getImagesUrl(selectedBrand, selectedSeason);
-      } catch (error) {
-        throw new Error(String(error));
-      }
-    });
-    setCurrentIndex(currentIndex + 1);
-    alert(
-      `le produit ${products[currentIndex].product_style} - ${products[currentIndex].product_name} est envoyé pour correction`
-    );
+      });
+    } else {
+      alert(
+        `le produit ${products[currentIndex].product_style} - ${products[currentIndex].product_name} est envoyé pour correction`
+      );
+      setCurrentIndex(currentIndex + 1);
+    }
   };
 
   useEffect(() => {

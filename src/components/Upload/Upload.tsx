@@ -35,11 +35,15 @@ function Upload() {
     }
 
     const formData = new FormData();
-    formData.append(`${endpoint.replace('/', '-')}`, file);
+    formData.append(`${endpoint.replace(/\//g, '-')}`, file);
 
     try {
       const upload = await axios.post(
-        `${import.meta.env.VITE_API_URL}/upload/${endpoint}`,
+        `${
+          process.env.NODE_ENV === 'production'
+            ? import.meta.env.VITE_API_URL
+            : import.meta.env.VITE_API_URL_DEV
+        }/upload/${endpoint}`,
         formData,
         {
           withCredentials: true,
@@ -66,7 +70,7 @@ function Upload() {
 
       (
         document.getElementById(
-          `${endpoint.replace('/', '-')}`
+          `${endpoint.replace(/\//g, '-')}`
         ) as HTMLFormElement
       )?.reset();
     } catch (error) {
